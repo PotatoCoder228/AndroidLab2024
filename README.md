@@ -17,5 +17,5 @@ mvn package
 Download and check *Maven* dependencies:
 
 ```bash
-mvn package 
+mvn verify 
 ```
