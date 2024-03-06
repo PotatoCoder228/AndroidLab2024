@@ -19,6 +19,34 @@
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+        <dependency>
+        <groupId>io.ktor</groupId>
+        <artifactId>ktor-server-core-jvm</artifactId>
+        <version>2.3.9</version>
+    </dependency>
+    <dependency>
+        <groupId>io.ktor</groupId>
+        <artifactId>ktor-server-netty-jvm</artifactId>
+        <version>2.3.9</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.ktor/ktor-client-core-jvm -->
+    <!-- https://mvnrepository.com/artifact/io.ktor/ktor-client-core -->
+<dependency>
+    <groupId>io.ktor</groupId>
+    <artifactId>ktor-client-core</artifactId>
+    <version>2.3.9</version>
+    <scope>runtime</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.ktor/ktor-network -->
+<dependency>
+    <groupId>io.ktor</groupId>
+    <artifactId>ktor-network</artifactId>
+    <version>3.0.0-beta-1</version>
+    <scope>runtime</scope>
+</dependency>
+
+
+
     </dependencies>
 
     <build>
