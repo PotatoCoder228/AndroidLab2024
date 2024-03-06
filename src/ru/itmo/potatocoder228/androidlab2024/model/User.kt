@@ -1,3 +1,4 @@
+package model
 public data class User(
     var id: Int,
     var login: String,
