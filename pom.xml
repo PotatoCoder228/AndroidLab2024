@@ -79,6 +79,17 @@
     <version>2.3.9</version>
 </dependency>
 
+<dependency>
+<groupId>io.ktor</groupId>
+<artifactId>ktor-server-auth-jvm</artifactId>
+<version>2.3.9</version>
+</dependency>
+<dependency>
+<groupId>io.ktor</groupId>
+<artifactId>ktor-server-auth-jwt-jvm</artifactId>
+<version>2.3.9</version>
+</dependency>
+
 
 
     </dependencies>
