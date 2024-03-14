@@ -1,6 +1,6 @@
 package model
 public data class User(
-    var id: Int,
     var login: String,
-    var password: String
+    var password: String,
+    var id: Int = 0,
 )

@@ -20,7 +20,8 @@ import com.auth0.jwt.algorithms.Algorithm
 
 
 import database.HouseDB
-import model.House
+import database.UserDB
+import model.*
 import java.util.Date
 import dto.UserDTO
 const val secret = "secret"
@@ -30,7 +31,7 @@ const val myRealm = "Access to 'page'"
 
 fun main(args: Array<String>) {
     var houseDB = HouseDB();
-
+    var userDB = UserDB();
     var testHouse = House(1,"ABOBBA",false, 1);
 
     embeddedServer(Netty, 8080) {
@@ -84,7 +85,7 @@ fun main(args: Array<String>) {
                 val login = userDto.login
                 val password = userDto.password
                 //call.respond(login)
-                if (login == "ABOBA" && password == "123") {
+                if (userDB.checkUser(User(login,password))) {
                     val token = JWT.create()
                         .withAudience(audience)
                         .withIssuer(issuer)
@@ -105,6 +106,16 @@ fun main(args: Array<String>) {
                         ContentType.Application.Json
                     )*/
                 }
+            }
+
+            post("/register") {
+               
+                val userDto = call.receive<UserDTO>()
+                val login = userDto.login
+                val password = userDto.password
+                //call.respond(login)
+                if(userDB.save(User(login, password)))  call.respond(HttpStatusCode.OK) 
+                else call.respond(HttpStatusCode.BadRequest)
             }
 
             authenticate("HouseAuth") {
