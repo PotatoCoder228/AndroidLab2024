@@ -12,6 +12,8 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.version>1.9.22</kotlin.version>
         <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
+
+        <main.class>MainKt</main.class>
     </properties>
     <dependencies>
         <dependency>
@@ -118,7 +120,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>MainKt</mainClass>
+                            <mainClass>${main.class}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -137,7 +139,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>MainKt</mainClass>
+                                    <mainClass>${main.class}</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

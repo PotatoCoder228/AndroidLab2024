@@ -5,7 +5,9 @@ import model.User
 import database.interfaces.*
 public class UserDB : UserCollection{
     var collection = mutableListOf<User>()
-
+    companion object { 
+        var lastId : Int = 0
+    }
     override fun findAll(): List<User> = collection
 
     override fun findById(id: Int): User? =
@@ -14,8 +16,11 @@ public class UserDB : UserCollection{
     override fun findByLogin(login: String): User? =
         collection.firstOrNull { it.login == login }
 
-    override fun save(user: User): Boolean =
-        collection.add(user)
+    override fun save(user: User): Boolean {
+        user.id = lastId;
+        lastId++;
+        return collection.add(user)
+    }
 
     override fun checkUser(user: User): Boolean{
         val dbUser = findByLogin(user.login)
