@@ -43,6 +43,7 @@ fun Application.module() {
     var userDB = UserDB();
     configureJwtAuth()
     configureRouting(userDB,houseDB)
+    configureLogging()
     
     configureSerialization()
 }

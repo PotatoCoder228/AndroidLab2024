@@ -36,7 +36,7 @@ fun Route.authRouting(userCollection: UserCollection, houseCollection: HouseColl
         if (userCollection.checkUser(User(login,password))) {
          
             val token = generateToken(login);
-
+            call.response.status(HttpStatusCode.OK)
             call.respond(hashMapOf("token" to token));
             /*call.respondText(
                 //Json.encodeToString(hashMapOf("token" to token)),
@@ -62,7 +62,8 @@ fun Route.authRouting(userCollection: UserCollection, houseCollection: HouseColl
             val user = userCollection.findByLogin(login);
 
             houseCollection.save(House(1,login,false, user!!.id))
-            call.respond(HttpStatusCode.OK) 
+            call.response.status(HttpStatusCode.OK)
+            call.respondText("user ${login} registered");
         }
         else call.respond(HttpStatusCode.BadRequest)
     }

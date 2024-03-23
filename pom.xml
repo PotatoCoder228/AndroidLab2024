@@ -46,6 +46,12 @@
     <artifactId>ktor-server-call-logging-jvm</artifactId>
     <version>2.3.9</version>
 </dependency>
+
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>1.5.3</version>
+</dependency>
 <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm -->
 
 <!-- для сериализации -->

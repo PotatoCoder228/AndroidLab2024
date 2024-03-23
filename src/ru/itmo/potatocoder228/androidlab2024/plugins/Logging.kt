@@ -1,0 +1,35 @@
+package plugins
+
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.server.logging.toLogString
+
+
+
+val RequestTracePlugin = createApplicationPlugin(name = "RequestTracePlugin") {
+    println("logging is installed!")
+    onCallReceive  { call ->
+        /*transformBody { data ->
+            var str = "";
+            println("Params: ${data.readUTF8Line(10000)}")
+            data
+        }*/
+    }
+    onCall  { call ->
+        var str = mutableMapOf<String, String>();
+        call.request.queryParameters.forEach { key, value ->  str.put(key,value[0])}
+        println("Processing request: ${call.request.toLogString()}")
+        println("Params:\n ${str}")
+    }
+    onCallRespond { call, body ->
+        println("Sending response, status: ${call.response.status()} : \n${body}")
+    }
+  
+}
+//настройка сериализации
+fun Application.configureLogging() {
+    install(RequestTracePlugin);
+}
