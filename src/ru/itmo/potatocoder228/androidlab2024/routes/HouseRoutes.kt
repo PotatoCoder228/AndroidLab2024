@@ -38,7 +38,7 @@ fun Route.houseRouting(userCollection: UserCollection, houseCollection: HouseCol
         call.respondText("Hello, world!", ContentType.Text.Html)
     }
 
-
+    //TODO common code for auth and getting house
     get{
         val principal = call.principal<JWTPrincipal>()
         val login = principal!!.payload.getClaim("login").asString()
@@ -46,6 +46,22 @@ fun Route.houseRouting(userCollection: UserCollection, houseCollection: HouseCol
         val house = houseCollection.findByUserId(user.id);
         call.respond(house);
 
-    } 
+    }
+
+    post{
+        val principal = call.principal<JWTPrincipal>()
+        val login = principal!!.payload.getClaim("login").asString()
+        val user = userCollection.findByLogin(login)?: return@post call.respond(hashMapOf("error" to "No such user"));
+        val house = houseCollection.findByUserId(user.id);
+        
+        var newHouse = call.receive<HouseDTO>()
+        house.description = newHouse.description;
+        house.lampochka = newHouse.lampochka;
+        if(!houseCollection.update(house)) throw Exception("AA");
+        call.response.status(HttpStatusCode.OK)
+        call.respondText("house ${house.id} updated");
+
+    }
+
 
 }

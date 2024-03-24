@@ -15,6 +15,11 @@ public class HouseDB : HouseCollection{
         return collection.add(house)
     }
 
+    override fun update(house: House): Boolean{
+        collection.removeIf{ it.id == house.id}
+        return collection.add(house)
+    }
+
     override fun findByUserId(id: Int) : House{
         return collection.first { it.hostId == id }
     }
