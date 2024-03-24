@@ -42,6 +42,7 @@ fun Application.module() {
     var houseDB = HouseDB();
     var userDB = UserDB();
     configureDoubleReceive()
+    configureErrorHandling()
     configureJwtAuth()
     configureRouting(userDB,houseDB)
     configureLogging()

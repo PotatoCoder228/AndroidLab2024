@@ -12,8 +12,9 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.version>1.9.22</kotlin.version>
         <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
-
+        <!--глобальный конфиг-->
         <main.class>MainKt</main.class>
+        <ktor_version>2.3.9</ktor_version>
     </properties>
     <dependencies>
         <dependency>
@@ -24,12 +25,12 @@
         <dependency>
         <groupId>io.ktor</groupId>
         <artifactId>ktor-server-core-jvm</artifactId>
-        <version>2.3.9</version>
+        <version>${ktor_version}</version>
     </dependency>
     <dependency>
         <groupId>io.ktor</groupId>
         <artifactId>ktor-server-netty-jvm</artifactId>
-        <version>2.3.9</version>
+        <version>${ktor_version}</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/io.ktor/ktor-client-core-jvm -->
 
@@ -44,7 +45,7 @@
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-server-call-logging-jvm</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
 </dependency>
 
 <dependency>
@@ -56,7 +57,12 @@
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-server-double-receive-jvm</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
+</dependency>
+<dependency>
+    <groupId>io.ktor</groupId>
+    <artifactId>ktor-server-status-pages-jvm</artifactId>
+    <version>${ktor_version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm -->
 
@@ -64,12 +70,12 @@
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-serialization-kotlinx-json-jvm</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
 </dependency>
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-serialization-kotlinx-json</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
 </dependency>
 <dependency>
     <groupId>org.jetbrains.kotlin</groupId>
@@ -79,7 +85,7 @@
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-server-content-negotiation-jvm</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/io.ktor/ktor-jackson -->
 <dependency>
@@ -90,18 +96,18 @@
 <dependency>
     <groupId>io.ktor</groupId>
     <artifactId>ktor-serialization-jackson-jvm</artifactId>
-    <version>2.3.9</version>
+    <version>${ktor_version}</version>
 </dependency>
 
 <dependency>
 <groupId>io.ktor</groupId>
 <artifactId>ktor-server-auth-jvm</artifactId>
-<version>2.3.9</version>
+<version>${ktor_version}</version>
 </dependency>
 <dependency>
 <groupId>io.ktor</groupId>
 <artifactId>ktor-server-auth-jwt-jvm</artifactId>
-<version>2.3.9</version>
+<version>${ktor_version}</version>
 </dependency>
 
 
