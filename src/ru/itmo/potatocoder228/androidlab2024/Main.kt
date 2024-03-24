@@ -41,9 +41,11 @@ fun ApplicationEngineEnvironmentBuilder.envConfig() {
 fun Application.module() {
     var houseDB = HouseDB();
     var userDB = UserDB();
+    configureDoubleReceive()
     configureJwtAuth()
     configureRouting(userDB,houseDB)
     configureLogging()
+    
     
     configureSerialization()
 }
