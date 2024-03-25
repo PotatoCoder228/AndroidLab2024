@@ -3,28 +3,29 @@ package database
 import kotlin.collections.emptyList
 import model.House
 import database.interfaces.*
+import exceptions.DBException
 public class HouseDB : HouseCollection{
     var collection = mutableListOf<House>()
 
     companion object { 
         var lastId : Int = 0
     }
-    override fun save(house: House): Boolean{
+    override fun save(house: House){
         house.id = lastId;
         lastId++;
-        return collection.add(house)
+        collection.add(house) || throw DBException();
     }
 
-    override fun update(house: House): Boolean{
+    override fun update(house: House){
         collection.removeIf{ it.id == house.id}
-        return collection.add(house)
+        collection.add(house) || throw DBException();
     }
 
     override fun findByUserId(id: Int) : House{
-        return collection.first { it.hostId == id }
+        return collection.firstOrNull{ it.hostId == id } ?: throw DBException();
     }
     override fun findById(id: Int) : House{
-        return collection.first { it.id == id }
+        return collection.firstOrNull() { it.id == id } ?: throw DBException();
     }
 
 

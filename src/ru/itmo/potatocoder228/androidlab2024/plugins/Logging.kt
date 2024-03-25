@@ -19,10 +19,10 @@ val RequestTracePlugin = createApplicationPlugin(name = "RequestTracePlugin") {
         
     }
     onCall  { call ->
-        var str = mutableMapOf<String, String>();
-        call.request.queryParameters.forEach { key, value ->  str.put(key,value[0])}
+        var params = call.receiveText();
         println("Processing request: ${call.request.toLogString()}")
-        println("Params:\n${call.receiveText()}")
+
+        if(params.isNotEmpty()) println("Params:\n${call.receiveText()}")
         println("")
     }
     onCallRespond { call, body ->

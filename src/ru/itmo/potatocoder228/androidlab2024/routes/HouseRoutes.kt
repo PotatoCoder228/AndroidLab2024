@@ -32,6 +32,7 @@ fun Route.houseRouting(userCollection: UserCollection, houseCollection: HouseCol
         val principal = call.principal<JWTPrincipal>()
         val login = principal!!.payload.getClaim("login").asString()
         val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
+        call.response.status(HttpStatusCode.OK)
         call.respondText("Hi, $login! Token is expired at $expiresAt ms.")
     }
     get("/hello") {
@@ -40,28 +41,30 @@ fun Route.houseRouting(userCollection: UserCollection, houseCollection: HouseCol
 
     //TODO common code for auth and getting house
     get{
-        val principal = call.principal<JWTPrincipal>()
-        val login = principal!!.payload.getClaim("login").asString()
-        val user = userCollection.findByLogin(login)?: return@get call.respond(hashMapOf("error" to "No such user"));
+        val user = userCollection.findByLogin(call.getUserLogin());
+        
         val house = houseCollection.findByUserId(user.id);
+        call.response.status(HttpStatusCode.OK)
         call.respond(house);
 
     }
 
     post{
-        val principal = call.principal<JWTPrincipal>()
-        val login = principal!!.payload.getClaim("login").asString()
-        val user = userCollection.findByLogin(login)?: return@post call.respond(hashMapOf("error" to "No such user"));
-        val house = houseCollection.findByUserId(user.id);
+        val user = userCollection.findByLogin(call.getUserLogin());
+        var house = houseCollection.findByUserId(user.id);
         
         var newHouse = call.receive<HouseDTO>()
-        house.description = newHouse.description;
-        house.lampochka = newHouse.lampochka;
-        if(!houseCollection.update(house)) throw Exception("AA");
+        house.setFromDTO(newHouse)
+        houseCollection.update(house)
         call.response.status(HttpStatusCode.OK)
         call.respondText("house ${house.id} updated");
 
     }
+    
 
+}
 
+fun ApplicationCall.getUserLogin(): String {
+    val principal = principal<JWTPrincipal>()
+    return principal!!.payload.getClaim("login").asString()
 }

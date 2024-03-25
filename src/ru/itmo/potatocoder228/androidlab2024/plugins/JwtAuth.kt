@@ -12,8 +12,9 @@ import io.ktor.server.response.*
 import io.ktor.server.request.* 
 import config.*
 import java.util.Date
+import database.interfaces.*
 //настройка сериализации
-fun Application.configureJwtAuth() {
+fun Application.configureJwtAuth(userService : UserCollection) {
     install(Authentication) {
         jwt("HouseAuth") {
             realm = Config.myRealm
@@ -25,7 +26,9 @@ fun Application.configureJwtAuth() {
                     .build()
             )
             validate { credential ->
-                if (credential.payload.getClaim("login").asString() != "") {
+                val login = credential.payload.getClaim("login").asString();
+
+                if (userService.checkLogin(login)) {
                     JWTPrincipal(credential.payload)
                 } else {
                     null

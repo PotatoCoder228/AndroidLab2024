@@ -43,7 +43,7 @@ fun Application.module() {
     var userDB = UserDB();
     configureDoubleReceive()
     configureErrorHandling()
-    configureJwtAuth()
+    configureJwtAuth(userDB)
     configureRouting(userDB,houseDB)
     configureLogging()
     

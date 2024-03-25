@@ -3,6 +3,7 @@ package database
 import kotlin.collections.emptyList
 import model.User
 import database.interfaces.*
+import exceptions.DBException
 public class UserDB : UserCollection{
     var collection = mutableListOf<User>()
     companion object { 
@@ -10,21 +11,25 @@ public class UserDB : UserCollection{
     }
     override fun findAll(): List<User> = collection
 
-    override fun findById(id: Int): User? =
-        collection.firstOrNull { it.id == id }
+    override fun findById(id: Int): User =
+        collection.firstOrNull { it.id == id }?: throw DBException()
 
-    override fun findByLogin(login: String): User? =
-        collection.firstOrNull { it.login == login }
+    override fun findByLogin(login: String): User =
+        collection.firstOrNull { it.login == login } ?: throw DBException()
 
-    override fun save(user: User): Boolean {
+    override fun save(user: User) {
         user.id = lastId;
         lastId++;
-        return collection.add(user)
+        collection.add(user) || throw DBException();
     }
 
     override fun checkUser(user: User): Boolean{
-        val dbUser = findByLogin(user.login)
-        return dbUser?.login==user.login && dbUser?.password == user.password
+        return try{
+            val dbUser = findByLogin(user.login)
+            dbUser.login==user.login && dbUser.password == user.password
+        } catch (e: DBException){
+            false
+        }
     }
 
 }
