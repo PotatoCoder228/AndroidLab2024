@@ -13,7 +13,7 @@ import io.ktor.server.request.*
 import config.*
 import java.util.Date
 import database.interfaces.*
-//настройка сериализации
+//настройка JWT
 fun Application.configureJwtAuth(userService : UserCollection) {
     install(Authentication) {
         jwt("HouseAuth") {
