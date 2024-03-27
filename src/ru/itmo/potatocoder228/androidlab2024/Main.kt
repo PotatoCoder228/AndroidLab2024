@@ -20,6 +20,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import database.*
 import plugins.*
 import config.*
+import repository.HouseRepository
 
 fun main() {
     val env = applicationEngineEnvironment {
@@ -39,7 +40,9 @@ fun ApplicationEngineEnvironmentBuilder.envConfig() {
 }
 
 fun Application.module() {
-    var houseDB = HouseDB();
+    var houseRepository = HouseRepository();
+    houseRepository.initConnection();
+    var houseDB = HouseDB(houseRepository);
     var userDB = UserDB();
     configureDoubleReceive()
     configureErrorHandling()

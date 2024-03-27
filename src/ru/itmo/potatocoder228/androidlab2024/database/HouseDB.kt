@@ -1,31 +1,24 @@
 
 package database
-import kotlin.collections.emptyList
 import model.House
 import database.interfaces.*
-import exceptions.DBException
-public class HouseDB : HouseCollection{
-    var collection = mutableListOf<House>()
+import repository.HouseRepository
 
-    companion object { 
-        var lastId : Int = 0
-    }
+public class HouseDB(private val houseRepository : HouseRepository) : HouseCollection{
+
     override fun save(house: House){
-        house.id = lastId;
-        lastId++;
-        collection.add(house) || throw DBException();
+        houseRepository.saveHouse(house);
     }
 
     override fun update(house: House){
-        collection.removeIf{ it.id == house.id}
-        collection.add(house) || throw DBException();
+        houseRepository.updateHouse(house);
     }
 
     override fun findByUserId(id: Int) : House{
-        return collection.firstOrNull{ it.hostId == id } ?: throw DBException();
+        return houseRepository.findByUserId(id);
     }
     override fun findById(id: Int) : House{
-        return collection.firstOrNull() { it.id == id } ?: throw DBException();
+        return houseRepository.findById(id)
     }
 
 
