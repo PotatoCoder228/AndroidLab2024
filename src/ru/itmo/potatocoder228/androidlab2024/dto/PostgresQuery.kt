@@ -1,25 +1,27 @@
-package postgresql.model
+package dto
 
-data class Query(
-        private var type: QueryType,
+import model.User
+
+data class PostgresQuery(
+        private var type: PostgresQueryType,
         private var user: User,
 ){
-    constructor(type: QueryType) : this(type, User(0,"",""))
+    constructor(type: PostgresQueryType) : this(type, User("","", 0))
 
-    fun setType(type: QueryType) {
+    fun setType(type: PostgresQueryType) {
         this.type = type
     }
 
-    fun setOwner(user: User) {
+    fun setUser(user: User) {
         this.user = user
     }
 
 
-    fun getType() : QueryType {
+    fun getType() : PostgresQueryType {
         return this.type
     }
 
-    fun getOwner(): User{
+    fun getUser(): User {
         return this.user
     }
 
@@ -27,7 +29,7 @@ data class Query(
 }
 
 
-enum class QueryType {
+enum class PostgresQueryType {
     SELECT_ONE,
     SELECT_ALL,
     INSERT,
@@ -36,7 +38,7 @@ enum class QueryType {
 }
 
 
-data class QueryResult(
+data class PostgresQueryResult(
         private var message: String,
         private var collection: ArrayList<User>
 ) {

@@ -1,6 +1,6 @@
-package postgresql.dbManager
+package postgresql.database.dbManager
 
-import postgresql.model.Owner
+import postgresql.model.User
 import postgresql.model.Query
 import postgresql.model.QueryResult
 import postgresql.model.QueryType.*
@@ -44,10 +44,10 @@ class DBManager {
                 statement.execute(insertQuery)
                 val resultSet: ResultSet = statement.resultSet
 
-                val collection = ArrayList<Owner>()
+                val collection = ArrayList<User>()
                 while (resultSet.next())
                     //TODO: как отойти от привязки к полям класса
-                    collection.add(Owner(resultSet.getInt("id"), resultSet.getString("login"), resultSet.getString("password")))
+                    collection.add(User(resultSet.getInt("id"), resultSet.getString("login"), resultSet.getString("password")))
                 queryResult.setCollection(collection)
                 resultSet.close()
                 statement.close()
@@ -114,12 +114,12 @@ class DBManager {
             if (i != fields.size - 1)
                 s += ", "
         }
-        return "UPDATE OWNER SET $s WHERE id=${query.getOwner().getId()};"
+        return "UPDATE OWNER SET $s WHERE id=${query.getOwner().id};"
     }
 
 
     private fun deleteQuery(query: Query): String {
-        return "DELETE FROM OWNER WHERE id=${query.getOwner().getId()};".trimIndent()
+        return "DELETE FROM OWNER WHERE id=${query.getOwner().id};".trimIndent()
     }
 
     fun closeConnection() {

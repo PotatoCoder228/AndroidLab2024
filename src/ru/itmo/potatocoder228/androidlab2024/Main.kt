@@ -1,14 +1,14 @@
-import postgresql.model.*
-import postgresql.repo.OwnerRepo
+import database.UserDB
+import model.User
 
 
 fun main() {
-    val owner = Owner(123, "ee Doe", "passw0rd")
+    val user = User("ee Doe", "passw0rd")
 
-    val repo = OwnerRepo()
-    val s = repo.getOwners()
+    val userDB = UserDB()
+    val s = userDB.findAll()
 
     for (a in s) {
-        println(a.getId().toString() + "\t" + a.getLogin() + "\t" + a.getPassword())
+        println(a.login + "\t" + a.password + "\t" + a.id)
     }
 }
