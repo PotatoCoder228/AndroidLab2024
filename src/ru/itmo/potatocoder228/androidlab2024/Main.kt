@@ -1,11 +1,14 @@
+import postgresql.model.*
+import postgresql.repo.OwnerRepo
+
 
 fun main() {
-    println("Hello, world!")
-    val clickHouseManager = ClickHouseManager()
-    clickHouseManager.initConnection()
-    clickHouseManager.createExampleTable()
-    clickHouseManager.createExampleQuery()
-    clickHouseManager.closeConnection()
+    val owner = Owner(123, "ee Doe", "passw0rd")
 
+    val repo = OwnerRepo()
+    val s = repo.getOwners()
 
+    for (a in s) {
+        println(a.getId().toString() + "\t" + a.getLogin() + "\t" + a.getPassword())
+    }
 }
