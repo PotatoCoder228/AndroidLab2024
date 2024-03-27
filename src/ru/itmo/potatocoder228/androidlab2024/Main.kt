@@ -20,6 +20,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import database.*
 import plugins.*
 import config.*
+import model.House
 import repository.HouseRepository
 
 fun main() {
@@ -41,9 +42,11 @@ fun ApplicationEngineEnvironmentBuilder.envConfig() {
 
 fun Application.module() {
     var houseRepository = HouseRepository();
-    houseRepository.initConnection();
+    houseRepository.initDB();
     var houseDB = HouseDB(houseRepository);
+    houseDB.save(House(0,"house", false, 1));
     var userDB = UserDB();
+    
     configureDoubleReceive()
     configureErrorHandling()
     configureJwtAuth(userDB)
@@ -52,4 +55,6 @@ fun Application.module() {
     
     
     configureSerialization()
+
+    houseRepository.closeConnection();
 }
