@@ -1,14 +1,15 @@
 import database.UserDB
 import model.User
+import repository.UserRepository
 
 
 fun main() {
-    val user = User("ee Doe", "passw0rd")
+    val repo = UserRepository()
+    repo.initDB()
+    val userDB = UserDB(repo)
+    val user = User("234q", "passw330rd", 10)
+    val a = userDB.checkUser(user)
+    println(a)
+    repo.closeConnection()
 
-    val userDB = UserDB()
-    val s = userDB.findAll()
-
-    for (a in s) {
-        println(a.login + "\t" + a.password + "\t" + a.id)
-    }
 }

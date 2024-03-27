@@ -150,3 +150,12 @@ class DBManager {
 //            return false
 //        }
 //    }
+
+
+
+
+//CREATE TABLE IF NOT EXISTS OWNER (
+//             login text,
+//             password text,
+//             id serial
+//         ) ;

@@ -13,7 +13,7 @@ data class User(
     //TODO: переделать
     fun getAllFields(): ArrayList<String> {
         val fields = ArrayList<String>()
-        fields.add(this.id.toString())
+//        fields.add(this.id.toString())
         fields.add("'" + this.login + "'")
         fields.add("'" + this.password + "'")
         return fields

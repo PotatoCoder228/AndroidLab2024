@@ -34,7 +34,8 @@ enum class PostgresQueryType {
     SELECT_ALL,
     INSERT,
     UPDATE,
-    DELETE
+    DELETE,
+    CHECK
 }
 
 
