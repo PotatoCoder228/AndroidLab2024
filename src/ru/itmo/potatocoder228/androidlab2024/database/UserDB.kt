@@ -8,43 +8,80 @@ import dto.PostgresQuery
 import dto.PostgresQueryType.*
 
 
-class UserDB(private val repo : UserRepository) : UserCollection {
+class UserDB() : UserCollection {
+    private val repo = UserRepository()
+    fun initUserDB(): Boolean {
+        return repo.initRepo()
+    }
+
+    private val collection = ArrayList<User>()
 
     override fun findAll(): List<User> {
-        val collection = repo.queryExecutor(PostgresQuery(SELECT_ALL)).getCollection()
+        repo.queryExecutor(PostgresQuery(SELECT_ALL), collection)
         return collection
     }
 
-    override fun findById(id: Int): User {
-        TODO("Not yet implemented")
+    override fun findById(id: Long): User {
+        val user = User(id)
+        return try {
+            repo.queryExecutor(PostgresQuery(SELECT_BY_ID, user), collection)
+            if (collection.isEmpty()) throw DBException()
+            else collection[0]
+        } catch (_: DBException) {
+            User("", "", 0)
+        }
     }
 
     override fun findByLogin(login: String): User {
-        TODO("Not yet implemented")
+        val user = User(login)
+        return try {
+            repo.queryExecutor(PostgresQuery(SELECT_BY_LOGIN, user), collection)
+            if (collection.isEmpty()) throw DBException()
+            else collection[0]
+        } catch (_: DBException) {
+            User.nullUser
+        }
     }
 
-
     override fun save(user: User) {
-        repo.queryExecutor(PostgresQuery(INSERT, user))
+        try {
+            val res = repo.queryExecutor(PostgresQuery(INSERT, user))
+            if (!res) throw DBException()
+        } catch (_: DBException) {
+        }
     }
 
 
     override fun checkUser(user: User): Boolean {
-        val res = repo.queryExecutor(PostgresQuery(CHECK, user)).getMessage()
-        return res == "t"
+        return repo.queryExecutor(PostgresQuery(CHECK, user))
     }
 
 
-    //TODO: не работает
-    override fun deleteById(id: Int) {
-        //manager.initConnection()
-        //manager.queryExecutor(PostgresQuery(DELETE, user)).getMessage()
-        //manager.closeConnection()
+    override fun deleteById(id: Long) {
+        val user = User(id)
+        try {
+            val res = repo.queryExecutor(PostgresQuery(DELETE_BY_ID, user))
+            if (!res) throw DBException()
+        } catch (_: DBException) {
+        }
+    }
+
+    override fun deleteByLogin(login: String) {
+        val user = User(login)
+        try {
+            val res = repo.queryExecutor(PostgresQuery(DELETE_BY_LOGIN, user))
+            if (!res) throw DBException()
+        } catch (_: DBException) {
+        }
     }
 
 
     override fun update(user: User) {
-        repo.queryExecutor(PostgresQuery(UPDATE, user)).getMessage()
+        try {
+            val res = repo.queryExecutor(PostgresQuery(UPDATE, user))
+            if (!res) throw DBException()
+        } catch (_: DBException) {
+        }
     }
 
 

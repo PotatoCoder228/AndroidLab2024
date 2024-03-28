@@ -30,39 +30,13 @@ data class PostgresQuery(
 
 
 enum class PostgresQueryType {
-    SELECT_ONE,
+    SELECT_BY_ID,
+    SELECT_BY_LOGIN,
     SELECT_ALL,
     INSERT,
     UPDATE,
-    DELETE,
+    DELETE_BY_ID,
+    DELETE_BY_LOGIN,
     CHECK
 }
 
-
-data class PostgresQueryResult(
-        private var message: String,
-        private var collection: ArrayList<User>
-) {
-    constructor(message: String) : this(message, ArrayList())
-    constructor() : this("", ArrayList())
-
-
-
-    fun setMessage(message: String) {
-        this.message = message
-    }
-
-    fun setCollection(collection: ArrayList<User>) {
-        this.collection = collection
-    }
-
-
-    fun getMessage() : String {
-        return this.message
-    }
-
-    fun getCollection(): ArrayList<User>{
-        return this.collection
-    }
-
-}

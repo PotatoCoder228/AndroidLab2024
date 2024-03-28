@@ -4,12 +4,22 @@ import repository.UserRepository
 
 
 fun main() {
-    val repo = UserRepository()
-    repo.initDB()
-    val userDB = UserDB(repo)
-    val user = User("234q", "passw330rd", 10)
-    val a = userDB.checkUser(user)
+    val userDB = UserDB()
+    userDB.initUserDB()
+    val user = User("11", "11")
+    val a = userDB.findByLogin("22")
     println(a)
-    repo.closeConnection()
+//    for(i in a){
+//        println(i)
+//    }
+
+//    println(a)
+
+//    val s = repo.getStringFieldsPairsStructure()
+//    println(s)
 
 }
+
+
+
+//CREATE TABLE IF NOT EXISTS OWNER (id Int32 primary key, login String , password String );
