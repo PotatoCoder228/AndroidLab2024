@@ -41,9 +41,18 @@ class HouseRepository {
     private fun translateToClickhouseDT(type: KType): String {
         return when (type.classifier) {
             Int::class -> "Int32"
+            Long::class -> "Int64"
             String::class -> "String"
             Boolean::class -> "Boolean"
             else -> throw Exception("Неопознанный тип данных")
+        }
+    }
+
+    private fun translateToKotlinType(type: String) : String {
+        return when(type) {
+            "Int32" -> "Int"
+            "Int64" -> "Long"
+            else -> type
         }
     }
 
@@ -72,8 +81,12 @@ class HouseRepository {
         Получить строковое представление всех названий кроме id для класса House;
         Используется для INSERT INTO:
      */
-    private fun getFieldsWithoutID(): String {
+    private fun getStringFieldsWithoutID(): String {
         return fields.keys.filter { it != "id" }.joinToString(", ")
+    }
+
+    private fun getStringFields(): String {
+        return fields.keys.joinToString(", ")
     }
     /*
         Получить значения всех полей кроме id в строковом формате;
@@ -83,7 +96,7 @@ class HouseRepository {
         val values = mutableListOf<String>()
         val fieldNames = fields.keys.toList()
         for (fieldName in fieldNames) {
-            if(fieldName == "id") continue;
+            //if(fieldName == "id") continue;
             var value = house::class.memberProperties.first { it.name == fieldName }.call(house)
             if(fields[fieldName].equals("String")) value = "'$value'"; //TODO возможно нужно экранирование
             values.add(value.toString())
@@ -112,7 +125,7 @@ class HouseRepository {
     }
 
     fun saveHouse(house : House) {
-        val fieldsWithoutId = getFieldsWithoutID();
+        val fieldsWithoutId = getStringFields();
         val insertQuery = """
         INSERT INTO HOUSE (""" + fieldsWithoutId + """)
         VALUES (""" + getFieldValues(house) + """)
@@ -129,12 +142,33 @@ class HouseRepository {
     fun updateHouse(house: House){ //TODO update = delete + insert
         println("House is updated " + house);
     }
-    fun findByUserId(id: Int) : House{
-        println("House is got"); //TODO
+    fun findByUserId(id: Long) : House{
+        val selectQuery = """
+            SELECT * FROM HOUSE WHERE hostId = """ + id.toString().trimIndent()
+        println(selectQuery)
+
+        val statement = connection.createStatement()
+        val resultSet = statement.executeQuery(selectQuery)
+
+        if (resultSet.next()) {
+            //val constructorParams = fields.values.joinToString(", ") {
+                //"resultSet.get${it}(\"${fields.keys.filter { key -> key == translateToKotlinType(it) }}\")"
+            //}
+
+            val codeToEvaluate = "House($constructorParams)"
+            println("Generated code to evaluate: $codeToEvaluate")
+
+            /*val clazz = Class.forName("model.House")
+            val constructor = clazz.getConstructor(*fieldAndType.values.map { String::class.java }.toTypedArray())
+
+            return constructor.newInstance(*fieldAndType.values.map { eval(it) }.toTypedArray()) as House*/
+        } else {
+            throw IllegalStateException("House not found for user with id $id")
+        }
         return House(1, "a", false, 3);
     }
 
-    fun findById(id: Int) : House{
+    fun findById(id: Long) : House{
         println("House is got"); //TODO
         return House(1, "a", false, 3);
 
@@ -143,5 +177,14 @@ class HouseRepository {
     fun closeConnection() {
         connection.close()
     }
+
+    fun uuidToInt(uuid: UUID): Long {
+        return (uuid.mostSignificantBits and Long.MAX_VALUE) or (uuid.leastSignificantBits and Long.MAX_VALUE)
+    }
+
+    fun intToUUID(intVal: Long): UUID {
+        return UUID(intVal, Long.MIN_VALUE)
+    }
+
 
 }

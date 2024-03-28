@@ -6,12 +6,12 @@ import database.interfaces.*
 import exceptions.DBException
 public class UserDB : UserCollection{
     var collection = mutableListOf<User>()
-    companion object { 
-        var lastId : Int = 0
+    companion object {
+        var lastId : Long = 0
     }
     override fun findAll(): List<User> = collection
 
-    override fun findById(id: Int): User =
+    override fun findById(id: Long): User =
         collection.firstOrNull { it.id == id }?: throw DBException()
 
     override fun findByLogin(login: String): User =

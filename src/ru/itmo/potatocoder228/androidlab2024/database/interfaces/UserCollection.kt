@@ -3,7 +3,7 @@ import model.User
 public interface UserCollection{
     fun findAll(): List<User>
 
-    fun findById(id: Int): User
+    fun findById(id: Long): User
     fun findByLogin(login: String): User
 
     fun save(user: User)

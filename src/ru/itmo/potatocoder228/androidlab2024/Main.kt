@@ -22,6 +22,7 @@ import plugins.*
 import config.*
 import model.House
 import repository.HouseRepository
+import java.util.*
 
 fun main() {
     val env = applicationEngineEnvironment {
@@ -44,9 +45,12 @@ fun Application.module() {
     var houseRepository = HouseRepository();
     houseRepository.initDB();
     var houseDB = HouseDB(houseRepository);
-    houseDB.save(House(0,"house", false, 1));
+    houseDB.save(House(0,"house2002", false, 1));
+    houseDB.save(House(5,"house2003", false, 2));
+
+    houseDB.findByUserId(1);
     var userDB = UserDB();
-    
+
     configureDoubleReceive()
     configureErrorHandling()
     configureJwtAuth(userDB)

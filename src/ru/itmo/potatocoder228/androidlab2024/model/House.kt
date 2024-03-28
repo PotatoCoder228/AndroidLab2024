@@ -1,7 +1,7 @@
 package model
 public data class House(
-    var id: Int,
+    var id: Long,
     var description: String,
     var lampochka: Boolean,
-    var hostId: Int
+    var hostId: Long
 )
